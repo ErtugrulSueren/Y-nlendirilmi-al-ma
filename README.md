@@ -1,1 +1,1 @@
-# Y-nlendirilmi-al-ma
+# Yonlendirilmis Calisma
