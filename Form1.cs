@@ -25,40 +25,116 @@ namespace WindowsFormsApplication1
 
         }
 
-        
+        SqlConnection bagla = new SqlConnection("Data Source=PC-BILGISAYAR\\ERTU;Initial Catalog=Kullanıcı;Integrated Security=True");
+
+        private void giris_Click(object sender, EventArgs e)
+        {
+         try
+            {
+                bagla.Open();
+                string sql = "select * from dbo.giris where ad=@adi and sifre=@sifre";
+                SqlParameter prm1 = new SqlParameter("adi", textBox1.Text.Trim());
+                SqlParameter prm2 = new SqlParameter("sifre", textBox2.Text.Trim());
+                SqlCommand komut = new SqlCommand(sql, bagla);
+                komut.Parameters.Add(prm1);
+                komut.Parameters.Add(prm2);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(komut);
+                da.Fill(dt);
+                bagla.Close();
+
+                if (dt.Rows.Count > 0)
+                {
+                    Form4 frm4 = new Form4();
+                    frm4.Show();
+                    this.Hide();
+                    if (textBox1.Text == "admin")
+                    {
+                        admin adm = new admin();
+                        adm.Show();
+                    }
+                }
+
+                else
+                {
+                    MessageBox.Show("Hatalı Giriş");
+                }
+
+            }
+          catch (Exception)
+            {
+                
+                MessageBox.Show("Hatalı Giriş");
+            }
+            
+            
+            
+            
+            /*SqlCommand komut = new SqlCommand("select * Kullanıcı where Kullanıcı Adı' " + textBox1.Text + "'and Şifre='" + textBox2.Text + "'", bagla);
+            
+            SqlDataReader dr = komut.EndExecuteReader();
+            if (dr.Read())
+            {
+                form2 frm2 = new form2();
+            }*/
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            label1.Text = "Ticari Seçim";
-            MessageBox.Show("Ticari seçim yaptınız.");
-            
-            form2 frm = new form2();
-            
-            this.Hide();
-            frm.Show();
-            
-            
-        }
+            try
+            {
+                bagla.Open();
+                string sql = "select * from dbo.giris where ad=@adi and sifre=@sifre";
+                SqlParameter prm1 = new SqlParameter("adi", textBox1.Text.Trim());
+                SqlParameter prm2 = new SqlParameter("sifre", textBox2.Text.Trim());
+                SqlCommand komut = new SqlCommand(sql, bagla);
+                komut.Parameters.Add(prm1);
+                komut.Parameters.Add(prm2);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(komut);
+                da.Fill(dt);
+                bagla.Close();
 
-        
+                if (dt.Rows.Count > 0)
+                {
+                    form2 frm2 = new form2();
+                    frm2.Show();
+                    this.Hide();
+                    if (textBox1.Text == "admin")
+                    {
+                        admin adm = new admin();
+                        adm.Show();
+                    }
+                }
 
-        
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-            
+                else
+                {
+                    MessageBox.Show("Hatalı Giriş");
+                }
+
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Hatalı Giriş");
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            label1.Text = "Kişisel Seçim";
-            MessageBox.Show("Kişisel seçim yaptınız..");
-
-            Form4 frm = new Form4();
-            this.Hide();
-            frm.Show();
-            
+            kayit kyt = new kayit();
+            kyt.Show();
             
         }
+
+        
+
+        
+
+        
+        
+
+        
 
         
     }
