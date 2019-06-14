@@ -15,6 +15,7 @@ namespace WindowsFormsApplication1
     {
         SqlConnection bagla = new SqlConnection("Data Source=PC-BILGISAYAR\\ERTU;Initial Catalog=Kullanıcı;Integrated Security=True");
         SqlCommand sil = new SqlCommand();
+        SqlCommand guncel = new SqlCommand();
         public admin()
         {
             InitializeComponent();
@@ -23,10 +24,7 @@ namespace WindowsFormsApplication1
            
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -61,6 +59,24 @@ namespace WindowsFormsApplication1
         private void button3_Click(object sender, EventArgs e)
         {
             verilerigörüntüle();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            bagla.Open();
+            guncel.CommandText = "UPDATE dbo.giris SET Ad='" + kulbox.Text.ToString() + "',Sifre='" + sifbox.Text.ToString() + "' WHERE Ad='" + dataGridView1.CurrentRow.Cells[0].Value.ToString() + "'";
+           // guncel.Connection = bagla;
+           // guncel.ExecuteNonQuery();
+           // guncel.CommandText = "UPDATE dbo.giris SET Sifre='" + sifbox.Text.ToString() + "' WHERE Sifre='" + dataGridView1.CurrentRow.Cells[0].Value.ToString() + "'";
+           // "UPDATE dbo.giris SET Ad='" + kulbox.Text.ToString() + "' WHERE Ad='"dataGridView1.CurrentRow.Cells[0].Value.ToString()"'",bagla
+            guncel.Connection = bagla;
+            guncel.ExecuteNonQuery();
+            bagla.Close();
         }
     }
 }

@@ -41,49 +41,13 @@ namespace WindowsFormsApplication1
             baglanti.Close();
         }
 
-        private void Form4_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Acıklama_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Fiyat_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Not_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void button3_Click(object sender, EventArgs e)
         {
-            baglanti.Open();
+            try
+            {
+                baglanti.Open();
 
             sil.CommandText = "DELETE FROM dbo.Sirayet WHERE ID='" + dataGridView1.CurrentRow.Cells[0].Value.ToString() + "'";
             sil.Connection = baglanti;
@@ -104,6 +68,12 @@ namespace WindowsFormsApplication1
             label1.Text = Convert.ToString("Net Kazanç : " + net + " TL");
             label2.Text = Convert.ToString("Giderler : " + gider + " TL");
             label3.Text = Convert.ToString("Toplam Gelir : " + gelir + "TL");
+            }
+            catch (Exception)
+            {
+                
+                
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -120,12 +90,26 @@ namespace WindowsFormsApplication1
             {
                 int ay = Convert.ToInt32(textBox1.Text);
                 int ay30 = ay / 30;
-                for (int i = 1; i < 31; i++)
+                for (int j = 0; j < 4; j++)
                 {
-                    SqlCommand komut = new SqlCommand("insert into dbo.Sirayet (Acıklama,Fiyat,Nnot,Tarih) values ('" + comboBox1.Text + "','" + ay30 + "','" + richTextBox1.Text + "','" + dateTimePicker1.Value.ToString("yyyy-MM-"+i+"") + "')", baglanti);
-                    komut.ExecuteNonQuery();
-                }  
+                   // if (j!=3)
+                   // {
+                        for (int i = 0; i < 10; i++)
+                        {
+                            SqlCommand komut = new SqlCommand("insert into dbo.Sirayet (Acıklama,Fiyat,Nnot,Tarih) values ('" + comboBox1.Text + "','" + ay30 + "','" + richTextBox1.Text + "','" + dateTimePicker1.Value.ToString("yyyy-MM-"+j+""+i+"") + "')", baglanti);
+                            komut.ExecuteNonQuery();
+                        }  
+                  //  }
+                    //else
+                    {
+                    //    SqlCommand komut = new SqlCommand("insert into dbo.Sirayet (Acıklama,Fiyat,Nnot,Tarih) values ('" + comboBox1.Text + "','" + ay30 + "','" + richTextBox1.Text + "','" + dateTimePicker1.Value.ToString("yyyy-MM-30") + "')", baglanti);
+                    //    komut.ExecuteNonQuery();
+                    //    break;
+                    }
                     
+                    
+                }
+                 
                 
 
             }
@@ -168,15 +152,7 @@ namespace WindowsFormsApplication1
             label6.Text = Convert.ToString("Toplam Gelir : " +gelir+ "TL");
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -235,6 +211,9 @@ namespace WindowsFormsApplication1
 
 
         }
+        
+        
+
 
         private void button5_Click(object sender, EventArgs e)
         {
@@ -245,5 +224,62 @@ namespace WindowsFormsApplication1
         {
         
         }
+
+        private void Form4_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Acıklama_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Fiyat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Not_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }

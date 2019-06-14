@@ -40,10 +40,7 @@ namespace WindowsFormsApplication1
             baglanti.Close();
         }
     
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
+        
         
         private void button1_Click(object sender, EventArgs e)
         {
@@ -54,12 +51,14 @@ namespace WindowsFormsApplication1
             {
                 int ay = Convert.ToInt32(textBox1.Text);
                 int ay30 = ay / 30;
-                for (int i = 1; i < 31; i++)
+                for (int j = 0; j < 4; j++)
                 {
-                    SqlCommand komut = new SqlCommand("insert into dbo.Sirayet (Acıklama,Fiyat,Nnot,Tarih) values ('" + comboBox1.Text + "','" + ay30 + "','" + richTextBox1.Text + "','" + dateTimePicker1.Value.ToString("yyyy-MM-0" + i + "") + "')", baglanti);
-                    komut.ExecuteNonQuery();
+                    for (int i = 0; i < 10; i++)
+                    {
+                        SqlCommand komut = new SqlCommand("insert into dbo.Sirayet (Acıklama,Fiyat,Nnot,Tarih) values ('" + comboBox1.Text + "','" + ay30 + "','" + richTextBox1.Text + "','" + dateTimePicker1.Value.ToString("yyyy-MM-"+j+""+i+"") + "')", baglanti);
+                        komut.ExecuteNonQuery();
+                    }
                 }
-
 
 
             }
@@ -107,65 +106,52 @@ namespace WindowsFormsApplication1
             System.Diagnostics.Process.Start(hesap);
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        
         
         private void button3_Click(object sender, EventArgs e)
         {
             
             
             //SqlCommand komut = new SqlCommand("DELETE FROM dbo.Sirayet WHERE id=@id",baglanti);
-            
-            
-            baglanti.Open();
-            
-            sil.CommandText = "DELETE FROM dbo.Sirayet WHERE ID='" + dataGridView1.CurrentRow.Cells[0].Value.ToString() + "'";
-            sil.Connection = baglanti;
-            sil.ExecuteNonQuery();
-            verilerigörüntüle();
-            SqlCommand gidert = new SqlCommand("select sum(Fiyat) from dbo.Sirayet where Acıklama in ('Malzeme','Toptancı','Borç','Fatura-Ticari','İşciMaaş') And Tarih like '" + dateTimePicker1.Value.ToString("yyyy-MM-dd") + "' ");
-            SqlCommand gelirt = new SqlCommand("select sum(Fiyat) from dbo.Sirayet where Acıklama='Satıs' And Tarih like '" + dateTimePicker1.Value.ToString("yyyy-MM-dd") + "'");
-            gelirt.Connection = baglanti;
-            gelirt.ExecuteNonQuery();
-            string gelir = gelirt.ExecuteScalar().ToString();
 
-            gidert.Connection = baglanti;
-            gidert.ExecuteNonQuery();
-            string gider = gidert.ExecuteScalar().ToString();
-            hesap();
-            baglanti.Close();
+            try
+            {
+                baglanti.Open();
+
+                sil.CommandText = "DELETE FROM dbo.Sirayet WHERE ID='" + dataGridView1.CurrentRow.Cells[0].Value.ToString() + "'";
+                sil.Connection = baglanti;
+                sil.ExecuteNonQuery();
+                verilerigörüntüle();
+                SqlCommand gidert = new SqlCommand("select sum(Fiyat) from dbo.Sirayet where Acıklama in ('Malzeme','Toptancı','Borç','Fatura-Ticari','İşciMaaş') And Tarih like '" + dateTimePicker1.Value.ToString("yyyy-MM-dd") + "' ");
+                SqlCommand gelirt = new SqlCommand("select sum(Fiyat) from dbo.Sirayet where Acıklama='Satıs' And Tarih like '" + dateTimePicker1.Value.ToString("yyyy-MM-dd") + "'");
+                gelirt.Connection = baglanti;
+                gelirt.ExecuteNonQuery();
+                string gelir = gelirt.ExecuteScalar().ToString();
+
+                gidert.Connection = baglanti;
+                gidert.ExecuteNonQuery();
+                string gider = gidert.ExecuteScalar().ToString();
+                hesap();
+                baglanti.Close();
 
 
-            label1.Text = Convert.ToString("Net Kazanç : " + net + " TL");
-            label2.Text = Convert.ToString("Giderler : " + gider + " TL");
-            label3.Text = Convert.ToString("Toplam Gelir : " + gelir + "TL"); 
+                label1.Text = Convert.ToString("Net Kazanç : " + net + " TL");
+                label2.Text = Convert.ToString("Giderler : " + gider + " TL");
+                label3.Text = Convert.ToString("Toplam Gelir : " + gelir + "TL"); 
+            }
+            catch (Exception)
+            {
+                
+                
+            }
+            
             
             
 
             
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void verilerigörüntüle()
         {
@@ -180,15 +166,15 @@ namespace WindowsFormsApplication1
 
             dataGridView1.DataSource = tablo;
 
-            for (int i = 0; i < tablo.Rows.Count; i++)
-            {
+            //for (int i = 0; i < tablo.Rows.Count; i++)
+           // {
                 //listView1.Items.Add(tablo.Rows[i]["Acıklama"].ToString());
                 //listView1.Items[i].SubItems.Add(tablo.Rows[i]["Fiyat"].ToString());
                 //listView1.Items[i].SubItems.Add(tablo.Rows[i]["Nnot"].ToString());
                // listView1.Items[i].SubItems.Add(tablo.Rows[i]["Tarih"].ToString());
                 //listView1.Items[i].SubItems.Add(tablo.Rows[i]["id"].ToString());
                 
-            }
+          //  }
 
             /*SqlDataReader oku = komut.ExecuteReader();
             while (oku.Read())
@@ -206,23 +192,7 @@ namespace WindowsFormsApplication1
 
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            //textBox1.Text = listView1.SelectedItems[0].SubItems[0].Text;
-            //comboBox1.Text = listView1.SelectedItems[0].SubItems[1].Text;
-            //richTextBox1.Text = listView1.SelectedItems[0].SubItems[2].Text;
-            //dateTimePicker1.Text = listView1.SelectedItems[0].SubItems[3].Text;
-        }
+        
 
         private void hesap() 
         {
@@ -258,6 +228,54 @@ namespace WindowsFormsApplication1
         private void button4_Click(object sender, EventArgs e)
         {
             verilerigörüntüle();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            //textBox1.Text = listView1.SelectedItems[0].SubItems[0].Text;
+            //comboBox1.Text = listView1.SelectedItems[0].SubItems[1].Text;
+            //richTextBox1.Text = listView1.SelectedItems[0].SubItems[2].Text;
+            //dateTimePicker1.Text = listView1.SelectedItems[0].SubItems[3].Text;
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
     }
